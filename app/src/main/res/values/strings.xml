@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">QuickApp</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="help">Help</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_email">Not a valid email</string>
+    <string name="invalid_password">Password must be >9 characters \nContain at least 1 uppercase character\nContain at least 1 lowercase character\nContain at least 1 number</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="name">Name</string>
+    <string name="updated_date">Date Updated</string>
+    <string name="description">Description</string>
+    <string name="logout">Logout</string>
+</resources>
