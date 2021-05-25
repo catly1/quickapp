@@ -1,10 +1,10 @@
-package com.example.quickapp.ui.RepositoryList
+package com.catly.quickapp.ui.RepositoryList
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.quickapp.data.RepositoryListRepository
-import com.example.quickapp.data.model.RepositoryListItem
+import com.catly.quickapp.data.RepositoryListRepository
+import com.catly.quickapp.data.model.RepositoryListItem
 import kotlinx.coroutines.launch
 import java.lang.Exception
 

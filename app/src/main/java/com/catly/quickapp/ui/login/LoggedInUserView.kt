@@ -1,4 +1,4 @@
-package com.example.quickapp.ui.login
+package com.catly.quickapp.ui.login
 
 /**
  * User details post authentication that is exposed to the UI

@@ -1,4 +1,4 @@
-package com.example.quickapp.ui.login
+package com.catly.quickapp.ui.login
 
 import android.os.Bundle
 import android.text.Editable
@@ -14,13 +14,20 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.quickapp.R
-import com.example.quickapp.ui.ViewModelFactory
+import com.catly.quickapp.ui.ViewModelFactory
 
 class LoginFragment: Fragment() {
 
-    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var userViewModel: UserViewModel
+    private lateinit var savedStateHandle: SavedStateHandle
+
+    companion object {
+        const val LOGIN_SUCCESSFUL: String = "LOGIN_SUCCESSFUL"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,16 +39,17 @@ class LoginFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        savedStateHandle = findNavController().previousBackStackEntry!!.savedStateHandle
+        savedStateHandle.set(LOGIN_SUCCESSFUL, false)
         val email = view.findViewById<EditText>(R.id.email)
         val password = view.findViewById<EditText>(R.id.password)
         val login = view.findViewById<Button>(R.id.login)
         val loading = view.findViewById<ProgressBar>(R.id.loading)
 
-        loginViewModel = ViewModelProvider(this, ViewModelFactory())
-            .get(LoginViewModel::class.java)
+        userViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application))
+            .get(UserViewModel::class.java)
 
-        loginViewModel.loginFormState.observe(viewLifecycleOwner, Observer {
+        userViewModel.loginFormState.observe(viewLifecycleOwner, Observer {
             val loginState = it ?: return@Observer
 
             // disable login button unless both email / password is valid
@@ -55,7 +63,7 @@ class LoginFragment: Fragment() {
             }
         })
 
-        loginViewModel.loginResult.observe(viewLifecycleOwner, Observer {
+        userViewModel.loginResult.observe(viewLifecycleOwner, Observer {
             val loginResult = it ?: return@Observer
 
             loading.visibility = View.GONE
@@ -63,7 +71,8 @@ class LoginFragment: Fragment() {
                 showLoginFailed(loginResult.error)
             }
             if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
+//                updateUiWithUser(loginResult.success)
+                savedStateHandle.set(LOGIN_SUCCESSFUL, true)
             }
 //            setResult(Activity.RESULT_OK)
 //
@@ -72,7 +81,7 @@ class LoginFragment: Fragment() {
         })
 
         email.afterTextChanged {
-            loginViewModel.loginDataChanged(
+            userViewModel.loginDataChanged(
                 email.text.toString(),
                 password.text.toString()
             )
@@ -80,7 +89,7 @@ class LoginFragment: Fragment() {
 
         password.apply {
             afterTextChanged {
-                loginViewModel.loginDataChanged(
+                userViewModel.loginDataChanged(
                     email.text.toString(),
                     password.text.toString()
                 )
@@ -89,7 +98,7 @@ class LoginFragment: Fragment() {
             setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
+                        userViewModel.login(
                             email.text.toString(),
                             password.text.toString()
                         )
@@ -99,7 +108,7 @@ class LoginFragment: Fragment() {
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(email.text.toString(), password.text.toString())
+                userViewModel.login(email.text.toString(), password.text.toString())
             }
         }
     }

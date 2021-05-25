@@ -1,7 +1,7 @@
-package com.example.quickapp.data
+package com.catly.quickapp.data
 
-import com.example.quickapp.data.model.LoggedInUser
-import com.example.quickapp.data.Result
+import com.catly.quickapp.data.model.LoggedInUser
+import com.catly.quickapp.data.Result
 
 /**
  * Class that requests authentication and user information from the remote data source and

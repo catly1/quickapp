@@ -1,6 +1,6 @@
-package com.example.quickapp.data
+package com.catly.quickapp.data
 
-import com.example.quickapp.data.model.RepositoryListItem
+import com.catly.quickapp.data.model.RepositoryListItem
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

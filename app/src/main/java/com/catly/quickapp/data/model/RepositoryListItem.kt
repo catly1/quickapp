@@ -1,4 +1,4 @@
-package com.example.quickapp.data.model
+package com.catly.quickapp.data.model
 
 import java.text.DateFormat
 import java.util.*

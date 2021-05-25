@@ -1,7 +1,8 @@
-package com.example.quickapp
+package com.catly.quickapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.quickapp.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

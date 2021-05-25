@@ -1,26 +1,28 @@
-package com.example.quickapp.ui
+package com.catly.quickapp.ui
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.quickapp.data.LoginDataSource
-import com.example.quickapp.data.LoginRepository
-import com.example.quickapp.data.RepositoryListRepository
-import com.example.quickapp.ui.RepositoryList.RepositoryListViewModel
-import com.example.quickapp.ui.login.LoginViewModel
+import com.catly.quickapp.data.LoginDataSource
+import com.catly.quickapp.data.LoginRepository
+import com.catly.quickapp.data.RepositoryListRepository
+import com.catly.quickapp.ui.RepositoryList.RepositoryListViewModel
+import com.catly.quickapp.ui.login.UserViewModel
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
  * Required given LoginViewModel has a non-empty constructor
  */
-class ViewModelFactory : ViewModelProvider.Factory {
+class ViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(
+        if (modelClass.isAssignableFrom(UserViewModel::class.java)) {
+            return UserViewModel(
                     loginRepository = LoginRepository(
                             dataSource = LoginDataSource()
-                    )
+                    ),
+                application
             ) as T
         }
 

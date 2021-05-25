@@ -1,21 +1,54 @@
-package com.example.quickapp.ui.login
+package com.catly.quickapp.ui.login
 
+import android.app.Application
+import android.content.SharedPreferences
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
+import androidx.lifecycle.AndroidViewModel
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.example.quickapp.R
-import com.example.quickapp.data.LoginRepository
-import com.example.quickapp.data.Result
+import com.catly.quickapp.data.LoginRepository
+import com.catly.quickapp.data.Result
 
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+class UserViewModel(private val loginRepository: LoginRepository, application: Application) : AndroidViewModel(application) {
 
+    private var sharedPreferences : SharedPreferences
+
+    init {
+        val spec = KeyGenParameterSpec.Builder(
+            MasterKey.DEFAULT_MASTER_KEY_ALIAS,
+            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+        )
+            .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+            .setKeySize(MasterKey.DEFAULT_AES_GCM_MASTER_KEY_SIZE)
+            .build()
+
+        val masterKey: MasterKey = MasterKey.Builder(application.applicationContext)
+            .setKeyGenParameterSpec(spec)
+            .build()
+
+        sharedPreferences = EncryptedSharedPreferences.create(
+            application.applicationContext,
+            "secret_shared_prefs",
+            masterKey, // masterKey created above
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
+    }
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
 
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
+
+    private val _logged = MutableLiveData(false)
+    val logged : LiveData<Boolean> = _logged
 
     fun login(email: String, password: String) {
         // can be launched in a separate asynchronous job

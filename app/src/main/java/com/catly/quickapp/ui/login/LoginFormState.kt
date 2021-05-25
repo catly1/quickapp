@@ -1,4 +1,4 @@
-package com.example.quickapp.ui.login
+package com.catly.quickapp.ui.login
 
 /**
  * Data validation state of the login form.

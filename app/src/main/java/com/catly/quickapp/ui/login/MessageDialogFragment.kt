@@ -1,4 +1,4 @@
-package com.example.quickapp.ui.login
+package com.catly.quickapp.ui.login
 
 import android.app.AlertDialog
 import android.app.Dialog

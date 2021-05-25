@@ -1,4 +1,4 @@
-package com.example.quickapp.adapter
+package com.catly.quickapp.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,9 +8,8 @@ import android.widget.TextView
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quickapp.R
-import com.example.quickapp.data.model.RepositoryListItem
-import com.example.quickapp.ui.RepositoryList.RepositoryListFragmentDirections
-import com.example.quickapp.ui.webview.WebViewFragment
+import com.catly.quickapp.data.model.RepositoryListItem
+import com.catly.quickapp.ui.RepositoryList.RepositoryListFragmentDirections
 import java.text.DateFormat
 
 class RepositoryListAdapter(private val context: Context,  private val findNavController: NavController) : RecyclerView.Adapter<RepositoryListAdapter.ViewHolder>() {
@@ -40,25 +39,6 @@ class RepositoryListAdapter(private val context: Context,  private val findNavCo
             val directions = RepositoryListFragmentDirections.actionRepositoryListFragmentToWebViewFragment(item.name, item.html_url)
             findNavController.navigate(directions)
 
-//            --Custom tabs--
-//            val builder = CustomTabsIntent.Builder()
-//            AppCompatResources.getDrawable(context,R.drawable.baseline_arrow_back_white_24dp)?.let { it1 ->
-//                builder.setCloseButtonIcon(
-//                    it1.toBitmap())
-//            }
-//            val colorParams = CustomTabColorSchemeParams.Builder()
-//                .setToolbarColor(context.resources.getColor(R.color.purple_500))
-//                .build()
-//            builder.setDefaultColorSchemeParams(colorParams)
-//            builder.setShowTitle(true)
-//            builder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left)
-//            builder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right)
-//            val intent = builder.build()
-//            val headers = Bundle()
-//            headers.putString("header1", "value1")
-//            headers.putString("header2", "value2")
-//            intent.intent.putExtra(Browser.EXTRA_HEADERS, headers)
-//            intent.launchUrl(context, Uri.parse(item.html_url))
         }
         holder.itemView.apply {
                 holder.nameView.text = item.name

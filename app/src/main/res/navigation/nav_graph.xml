@@ -7,22 +7,32 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.quickapp.ui.login.LoginFragment"
+        android:name="com.catly.quickapp.ui.login.LoginFragment"
         android:label="login_fragment"
-        tools:layout="@layout/login_fragment" />
+        tools:layout="@layout/login_fragment">
+        <action
+            android:id="@+id/action_loginFragment_to_repositoryListFragment"
+            app:destination="@id/repositoryListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/repositoryListFragment"
-        android:name="com.example.quickapp.ui.RepositoryList.RepositoryListFragment"
+        android:name="com.catly.quickapp.ui.RepositoryList.RepositoryListFragment"
         android:label="RepositoryListFragment"
         tools:layout="@layout/repository_fragment"
         >
         <action
             android:id="@+id/action_repositoryListFragment_to_webViewFragment"
-            app:destination="@id/webViewFragment" />
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+        <action
+            android:id="@+id/action_repositoryListFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"
-        android:name="com.example.quickapp.ui.webview.WebViewFragment"
+        android:name="com.catly.quickapp.ui.webview.WebViewFragment"
         android:label="WebViewFragment" >
         <argument
             android:name="name"

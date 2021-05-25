@@ -1,4 +1,4 @@
-package com.example.quickapp.data
+package com.catly.quickapp.data
 
 /**
  * A generic class that holds a value with its loading status.
