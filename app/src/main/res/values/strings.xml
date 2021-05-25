@@ -14,4 +14,6 @@
     <string name="updated_date">Date Updated</string>
     <string name="description">Description</string>
     <string name="logout">Logout</string>
+    <string name="repo_list">Repository List</string>
+    <string name="login">Login</string>
 </resources>
