@@ -39,8 +39,8 @@ class LoginFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        savedStateHandle = findNavController().previousBackStackEntry!!.savedStateHandle
-        savedStateHandle.set(LOGIN_SUCCESSFUL, false)
+//        savedStateHandle = findNavController().previousBackStackEntry!!.savedStateHandle
+//        savedStateHandle.set(LOGIN_SUCCESSFUL, false)
         val email = view.findViewById<EditText>(R.id.email)
         val password = view.findViewById<EditText>(R.id.password)
         val login = view.findViewById<Button>(R.id.login)
@@ -78,6 +78,13 @@ class LoginFragment: Fragment() {
 //
 //            //Complete and destroy login activity once successful
 //            finish()
+        })
+
+        userViewModel.user.observe(viewLifecycleOwner, {user ->
+            if (user !==null){
+                println(user.email)
+                findNavController().navigate(R.id.action_loginFragment_to_repositoryListFragment)
+            }
         })
 
         email.afterTextChanged {

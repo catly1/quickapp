@@ -16,7 +16,7 @@ class ViewModelFactory(private val application: Application) : ViewModelProvider
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(UserViewModel::class.java)) {
             return UserViewModel(
                     loginRepository = LoginRepository(
                         application

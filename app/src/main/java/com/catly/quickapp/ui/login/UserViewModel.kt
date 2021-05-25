@@ -7,6 +7,7 @@ import android.util.Patterns
 import com.example.quickapp.R
 import com.catly.quickapp.data.LoginRepository
 import com.catly.quickapp.data.Result
+import com.catly.quickapp.data.model.LoggedInUser
 
 
 class UserViewModel(private val loginRepository: LoginRepository) : ViewModel() {
@@ -17,16 +18,20 @@ class UserViewModel(private val loginRepository: LoginRepository) : ViewModel() 
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    private val _logged = MutableLiveData(false)
-    val logged : LiveData<Boolean> = _logged
+    private val _user = MutableLiveData<LoggedInUser>()
+    val user : LiveData<LoggedInUser> = _user
+
+    init {
+        _user.value = loginRepository.user
+    }
 
     fun login(email: String, password: String) {
         // can be launched in a separate asynchronous job
         val result = loginRepository.login(email, password)
 
         if (result is Result.Success) {
-            _logged.value = true
-//            _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
+            _user.value = result.data
+            _loginResult.value = LoginResult(success = LoggedInUserView(email))
         } else {
             _loginResult.value = LoginResult(error = R.string.login_failed)
         }

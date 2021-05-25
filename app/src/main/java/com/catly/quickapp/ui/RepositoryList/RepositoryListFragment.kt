@@ -58,11 +58,11 @@ class RepositoryListFragment : Fragment() {
         userViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application))
             .get(UserViewModel::class.java)
 
-        userViewModel.logged.observe(viewLifecycleOwner, { logged ->
-            if (!logged){
-                findNavController().navigate(R.id.action_repositoryListFragment_to_loginFragment)
-            }
-        })
+//        userViewModel.user.observe(viewLifecycleOwner, { user ->
+//            if (user === null){
+//                findNavController().navigate(R.id.action_repositoryListFragment_to_loginFragment)
+//            }
+//        })
 
         repoViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application)).get(RepositoryListViewModel::class.java)
 
