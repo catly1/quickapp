@@ -3,7 +3,6 @@ package com.catly.quickapp.ui
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.catly.quickapp.data.LoginDataSource
 import com.catly.quickapp.data.LoginRepository
 import com.catly.quickapp.data.RepositoryListRepository
 import com.catly.quickapp.ui.RepositoryList.RepositoryListViewModel
@@ -17,12 +16,11 @@ class ViewModelFactory(private val application: Application) : ViewModelProvider
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(UserViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(ViewModel::class.java)) {
             return UserViewModel(
                     loginRepository = LoginRepository(
-                            dataSource = LoginDataSource()
-                    ),
-                application
+                        application
+                    )
             ) as T
         }
 
