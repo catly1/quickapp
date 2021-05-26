@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.quickapp.R
 import com.catly.quickapp.ui.ViewModelFactory
@@ -36,10 +37,10 @@ class LoginFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val email = view.findViewById<EditText>(R.id.email)
-        val password = view.findViewById<EditText>(R.id.password)
-        val login = view.findViewById<Button>(R.id.login)
-        val loading = view.findViewById<ProgressBar>(R.id.loading)
+        val email = binding.email
+        val password = binding.password
+        val login = binding.login
+        val loading = binding.loading
 
         userViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application))
             .get(UserViewModel::class.java)
@@ -75,7 +76,7 @@ class LoginFragment: Fragment() {
         userViewModel.user.observe(viewLifecycleOwner, {user ->
             if (user !==null){
                 println(user.email)
-                findNavController().navigate(R.id.action_loginFragment_to_repositoryListFragment)
+                requireView().findNavController().navigate(R.id.action_loginFragment_to_repositoryListFragment)
             }
         })
 

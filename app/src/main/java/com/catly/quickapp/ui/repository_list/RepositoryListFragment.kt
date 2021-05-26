@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.example.quickapp.R
 import com.catly.quickapp.adapter.RepositoryListAdapter
 import com.catly.quickapp.ui.ViewModelFactory
@@ -32,7 +31,7 @@ class RepositoryListFragment : Fragment() {
         val view = binding.root
         val adapter = RepositoryListAdapter(findNavController())
         binding.recyclerViewRepoList.adapter = adapter
-        repoViewModel.repoList.observe(viewLifecycleOwner,  {
+        repoViewModel.repoList.observe(viewLifecycleOwner, {
             adapter.update(it)
         })
         return view

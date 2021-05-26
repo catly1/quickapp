@@ -55,7 +55,7 @@ class UserViewModel(private val loginRepository: LoginRepository) : ViewModel() 
         loginRepository.logout()
     }
 
-    private fun isPasswordValid(password: String): Boolean {
+    fun isPasswordValid(password: String): Boolean {
         var hasUpperCase = false
         var hasLowerCase = false
         var hasNumber = false

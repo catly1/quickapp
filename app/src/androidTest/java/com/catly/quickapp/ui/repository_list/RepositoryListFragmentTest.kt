@@ -5,6 +5,7 @@ import androidx.constraintlayout.utils.widget.MockView
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragment
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.testing.TestNavHostController
@@ -24,15 +25,31 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.mock
 
 @RunWith(AndroidJUnit4::class)
 class RepositoryListFragmentTest(){
+    private val navControllerMock = TestNavHostController(ApplicationProvider.getApplicationContext())
 
 
-    @Before
-    fun setUp(){
-        val navControllerMock = TestNavHostController(ApplicationProvider.getApplicationContext())
-        launchFragmentInContainer(Bundle(),R.style.Theme_AppCompat_DayNight_NoActionBar){
+//    @Before
+//    fun setUp(){
+//        launchFragmentInContainer(Bundle(),R.style.Theme_AppCompat_DayNight_NoActionBar){
+//            RepositoryListFragment().also { fragment ->
+//                fragment.viewLifecycleOwnerLiveData.observeForever{ viewLifecycleOwner ->
+//                    if( viewLifecycleOwner != null) {
+//                        navControllerMock.setGraph(R.navigation.nav_graph)
+//                        Navigation.setViewNavController(fragment.requireView(), navControllerMock)
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+    @Test
+    fun isRecyclerViewVisible(){
+        val scenario = launchFragmentInContainer(Bundle(),R.style.Theme_AppCompat_DayNight_NoActionBar){
             RepositoryListFragment().also { fragment ->
                 fragment.viewLifecycleOwnerLiveData.observeForever{ viewLifecycleOwner ->
                     if( viewLifecycleOwner != null) {
@@ -42,13 +59,17 @@ class RepositoryListFragmentTest(){
                 }
             }
         }
+
+        scenario.onFragment{
+            onView(withId(R.id.recyclerViewRepoList)).check(matches(isDisplayed()))
+        }
+
     }
 
-    @Test
-    fun isRecyclerViewVisible(){
-        onView(withId(R.id.recyclerViewRepoList)).check(matches(isDisplayed()))
-    }
-
-
-
+//    @Test
+//    fun canNavigateToWebView(){
+////        navControllerMock.setGraph(R.navigation.nav_graph)
+//        val mock = mock(NavController::class.java)
+//        verify(mock).navigate(RepositoryListFragmentDirections.actionRepositoryListFragmentToWebViewFragment("wat", "where"))
+//    }
 }
