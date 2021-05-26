@@ -55,6 +55,10 @@ class UserViewModel(private val loginRepository: LoginRepository) : ViewModel() 
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
+    fun logout(){
+        loginRepository.logout()
+    }
+
     private fun isPasswordValid(password: String): Boolean {
         var hasUpperCase = false
         var hasLowerCase = false

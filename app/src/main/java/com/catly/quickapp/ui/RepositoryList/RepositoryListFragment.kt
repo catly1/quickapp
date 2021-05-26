@@ -18,7 +18,9 @@ import com.example.quickapp.R
 import com.catly.quickapp.adapter.RepositoryListAdapter
 import com.catly.quickapp.ui.ViewModelFactory
 import com.catly.quickapp.ui.login.LoginFragment
+import com.catly.quickapp.ui.login.LoginFragmentDirections
 import com.catly.quickapp.ui.login.UserViewModel
+import kotlinx.android.synthetic.main.repository_fragment.*
 
 
 class RepositoryListFragment : Fragment() {
@@ -55,15 +57,6 @@ class RepositoryListFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        userViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application))
-            .get(UserViewModel::class.java)
-
-//        userViewModel.user.observe(viewLifecycleOwner, { user ->
-//            if (user === null){
-//                findNavController().navigate(R.id.action_repositoryListFragment_to_loginFragment)
-//            }
-//        })
-
         repoViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application)).get(RepositoryListViewModel::class.java)
 
         val view = inflater.inflate(R.layout.repository_fragment, container, false)
@@ -79,7 +72,20 @@ class RepositoryListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        logout.setOnClickListener {
+            userViewModel.logout()
+            findNavController().navigate(R.id.action_repositoryListFragment_to_loginFragment)
+        }
 
+        userViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application))
+            .get(UserViewModel::class.java)
+
+        userViewModel.user.observe(viewLifecycleOwner, { user ->
+            if (user === null){
+                println("get's here logged out")
+                findNavController().navigate(R.id.action_repositoryListFragment_to_loginFragment)
+            }
+        })
 
 //            val stuff = URL("https://api.github.com/users/QuickenLoans/repos").readText()
 //        CoroutineScope(Dispatchers.IO).launch {

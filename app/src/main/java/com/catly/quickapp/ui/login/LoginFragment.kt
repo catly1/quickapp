@@ -63,22 +63,22 @@ class LoginFragment: Fragment() {
             }
         })
 
-        userViewModel.loginResult.observe(viewLifecycleOwner, Observer {
-            val loginResult = it ?: return@Observer
-
-            loading.visibility = View.GONE
-            if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
-            }
-            if (loginResult.success != null) {
-//                updateUiWithUser(loginResult.success)
-                savedStateHandle.set(LOGIN_SUCCESSFUL, true)
-            }
-//            setResult(Activity.RESULT_OK)
+//        userViewModel.loginResult.observe(viewLifecycleOwner, Observer {
+//            val loginResult = it ?: return@Observer
 //
-//            //Complete and destroy login activity once successful
-//            finish()
-        })
+//            loading.visibility = View.GONE
+//            if (loginResult.error != null) {
+//                showLoginFailed(loginResult.error)
+//            }
+//            if (loginResult.success != null) {
+////                updateUiWithUser(loginResult.success)
+////                savedStateHandle.set(LOGIN_SUCCESSFUL, true)
+//            }
+////            setResult(Activity.RESULT_OK)
+////
+////            //Complete and destroy login activity once successful
+////            finish()
+//        })
 
         userViewModel.user.observe(viewLifecycleOwner, {user ->
             if (user !==null){

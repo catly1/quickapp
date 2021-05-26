@@ -52,7 +52,10 @@ class LoginRepository(application: Application) {
 
     fun logout() {
         user = null
-//        dataSource.logout()
+        sharedPreferences.edit()
+            .putString("email", null)
+            .putString("password", null)
+            .apply()
     }
 
     fun login(email: String, password: String): Result<LoggedInUser> {
