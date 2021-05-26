@@ -26,7 +26,6 @@ class UserViewModel(private val loginRepository: LoginRepository) : ViewModel() 
     }
 
     fun login(email: String, password: String) {
-        // can be launched in a separate asynchronous job
         val result = loginRepository.login(email, password)
 
         if (result is Result.Success) {
@@ -37,9 +36,6 @@ class UserViewModel(private val loginRepository: LoginRepository) : ViewModel() 
         }
     }
 
-    fun getLoggedInUser(){
-//        sharedPreferences.getString("password")
-    }
 
     fun loginDataChanged(email: String, password: String) {
         if (!isEmailValid(email)) {

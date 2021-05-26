@@ -18,14 +18,15 @@ class ViewModelFactory(private val application: Application) : ViewModelProvider
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(UserViewModel::class.java)) {
             return UserViewModel(
-                    loginRepository = LoginRepository(
-                        application
-                    )
+                loginRepository = LoginRepository(
+                    application
+                )
             ) as T
         }
 
         if (modelClass.isAssignableFrom(RepositoryListViewModel::class.java)) {
-            return RepositoryListViewModel(repositoryListRepository = RepositoryListRepository()
+            return RepositoryListViewModel(
+                repositoryListRepository = RepositoryListRepository()
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

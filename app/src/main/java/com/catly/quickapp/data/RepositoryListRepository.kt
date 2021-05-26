@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RepositoryListRepository() {
     private val webService: WebService
+
     init {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.github.com/users/QuickenLoans/")

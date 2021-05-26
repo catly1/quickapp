@@ -8,17 +8,18 @@ import com.catly.quickapp.data.model.RepositoryListItem
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class RepositoryListViewModel(private val repositoryListRepository: RepositoryListRepository) : ViewModel() {
+class RepositoryListViewModel(private val repositoryListRepository: RepositoryListRepository) :
+    ViewModel() {
     val repoList = MutableLiveData<List<RepositoryListItem>>()
 
     init {
-            viewModelScope.launch {
-                try {
-                    repoList.value = repositoryListRepository.getRepositories()
-                } catch (e: Exception){
+        viewModelScope.launch {
+            try {
+                repoList.value = repositoryListRepository.getRepositories()
+            } catch (e: Exception) {
 
-                }
             }
         }
+    }
 
 }

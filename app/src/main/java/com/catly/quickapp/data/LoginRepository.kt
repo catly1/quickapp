@@ -17,14 +17,11 @@ import java.lang.Exception
 
 class LoginRepository(application: Application) {
 
-    private var sharedPreferences : SharedPreferences
+    private var sharedPreferences: SharedPreferences
 
     // in-memory cache of the loggedInUser object
     var user: LoggedInUser? = null
         private set
-
-    val isLoggedIn: Boolean
-        get() = user != null
 
     init {
         val spec = KeyGenParameterSpec.Builder(
@@ -45,7 +42,8 @@ class LoginRepository(application: Application) {
             "secret_shared_prefs",
             masterKey, // masterKey created above
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        );
 
         getUser()
     }
@@ -67,7 +65,7 @@ class LoginRepository(application: Application) {
             val user = LoggedInUser(email)
             setLoggedInUser(user)
             Result.Success(user)
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Result.Error(e)
         }
     }
@@ -76,11 +74,11 @@ class LoginRepository(application: Application) {
         this.user = loggedInUser
     }
 
-    private fun getUser(){
+    private fun getUser() {
         val email = sharedPreferences.getString("email", null)
         val password = sharedPreferences.getString("password", null)
 
-        if (email != null && password != null){
+        if (email != null && password != null) {
             setLoggedInUser(LoggedInUser(email))
         }
     }

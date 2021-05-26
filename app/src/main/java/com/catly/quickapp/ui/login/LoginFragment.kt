@@ -19,16 +19,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.quickapp.R
 import com.catly.quickapp.ui.ViewModelFactory
+import kotlinx.android.synthetic.main.login_fragment.*
 
 class LoginFragment: Fragment() {
 
     private lateinit var userViewModel: UserViewModel
-    private lateinit var savedStateHandle: SavedStateHandle
-
-    companion object {
-        const val LOGIN_SUCCESSFUL: String = "LOGIN_SUCCESSFUL"
-    }
-
+    private var currentDialog : MessageDialogFragment? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,8 +35,7 @@ class LoginFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        savedStateHandle = findNavController().previousBackStackEntry!!.savedStateHandle
-//        savedStateHandle.set(LOGIN_SUCCESSFUL, false)
+
         val email = view.findViewById<EditText>(R.id.email)
         val password = view.findViewById<EditText>(R.id.password)
         val login = view.findViewById<Button>(R.id.login)
@@ -63,22 +58,19 @@ class LoginFragment: Fragment() {
             }
         })
 
-//        userViewModel.loginResult.observe(viewLifecycleOwner, Observer {
-//            val loginResult = it ?: return@Observer
-//
-//            loading.visibility = View.GONE
-//            if (loginResult.error != null) {
-//                showLoginFailed(loginResult.error)
-//            }
-//            if (loginResult.success != null) {
-////                updateUiWithUser(loginResult.success)
-////                savedStateHandle.set(LOGIN_SUCCESSFUL, true)
-//            }
-////            setResult(Activity.RESULT_OK)
-////
-////            //Complete and destroy login activity once successful
-////            finish()
-//        })
+        userViewModel.loginResult.observe(viewLifecycleOwner, Observer {
+            val loginResult = it ?: return@Observer
+
+            loading.visibility = View.GONE
+            if (loginResult.error != null) {
+                showLoginResult(getString(loginResult.error))
+            }
+            if (loginResult.success != null) {
+                val welcome = getString(R.string.welcome)
+                val email = loginResult.success.displayName
+                showLoginResult("$welcome $email")
+            }
+        })
 
         userViewModel.user.observe(viewLifecycleOwner, {user ->
             if (user !==null){
@@ -117,22 +109,16 @@ class LoginFragment: Fragment() {
                 loading.visibility = View.VISIBLE
                 userViewModel.login(email.text.toString(), password.text.toString())
             }
+
+            help.setOnClickListener {
+                currentDialog = MessageDialogFragment(getString(R.string.invalid_password),getString(R.string.close))
+                    currentDialog?.show(parentFragmentManager, MessageDialogFragment.TAG)
+            }
         }
     }
 
-    private fun showLoginFailed(@StringRes errorString: Int) {
-        Toast.makeText(context, errorString, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun updateUiWithUser(model: LoggedInUserView) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
-        // TODO : initiate successful logged in experience
-        Toast.makeText(
-            context,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
+    private fun showLoginResult(result: String) {
+        Toast.makeText(context, result, Toast.LENGTH_SHORT).show()
     }
 
     private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
@@ -145,6 +131,11 @@ class LoginFragment: Fragment() {
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        currentDialog?.dismiss()
     }
 }
 

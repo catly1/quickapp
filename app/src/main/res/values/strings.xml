@@ -16,4 +16,5 @@
     <string name="logout">Logout</string>
     <string name="repo_list">Repository List</string>
     <string name="login">Login</string>
+    <string name="close">Close</string>
 </resources>

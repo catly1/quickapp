@@ -38,7 +38,7 @@
             android:id="@+id/recyclerViewRepoList"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            tools:listitem="@layout/table_list_item"
+            tools:listitem="@layout/list_item"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
