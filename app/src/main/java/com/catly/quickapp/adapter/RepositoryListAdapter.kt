@@ -8,7 +8,7 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quickapp.R
 import com.catly.quickapp.data.model.RepositoryListItem
-import com.catly.quickapp.ui.RepositoryList.RepositoryListFragmentDirections
+import com.catly.quickapp.ui.repository_list.RepositoryListFragmentDirections
 import java.text.DateFormat
 
 class RepositoryListAdapter(

@@ -7,27 +7,31 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.quickapp.R
-import kotlinx.android.synthetic.main.table_list_item.*
-import kotlinx.android.synthetic.main.webview_fragment.*
+import com.example.quickapp.databinding.WebviewFragmentBinding
 
 
-class WebViewFragment: Fragment() {
+class WebViewFragment : Fragment() {
+    private lateinit var binding: WebviewFragmentBinding
     private val args: WebViewFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.webview_fragment, container, false)
+    ): View {
+        binding = WebviewFragmentBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val toolbar = binding.toolbar
+        val webView = binding.webview
+
         toolbar.setNavigationIcon(R.drawable.baseline_arrow_back_white_24dp)
         toolbar.title = args.name
-        webview.webViewClient = object : WebViewClient() {
+        webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 view.loadUrl(url)
                 return true
@@ -35,20 +39,20 @@ class WebViewFragment: Fragment() {
         }
 
         toolbar.setNavigationOnClickListener {
-            if (webview.canGoBack()){
-                webview.goBack()
+            if (webView.canGoBack()) {
+                webView.goBack()
             } else {
                 requireActivity().onBackPressed()
             }
         }
 
-        webview.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.action and MotionEvent.ACTION_UP == 0 && webview.canGoBack()) {
-                webview.goBack()
+        webView.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action and MotionEvent.ACTION_UP == 0 && webView.canGoBack()) {
+                webView.goBack()
                 return@OnKeyListener true
             }
             false
         })
-        webview.loadUrl(args.htmlUrl)
+        webView.loadUrl(args.htmlUrl)
     }
 }

@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/repositoryListFragment"
-        android:name="com.catly.quickapp.ui.RepositoryList.RepositoryListFragment"
+        android:name="com.catly.quickapp.ui.repository_list.RepositoryListFragment"
         android:label="RepositoryListFragment"
         tools:layout="@layout/repository_fragment"
         >
@@ -32,7 +32,7 @@
         <action
             android:id="@+id/action_repositoryListFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"
             />
     </fragment>

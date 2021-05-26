@@ -11,26 +11,26 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.quickapp.R
 import com.catly.quickapp.ui.ViewModelFactory
-import kotlinx.android.synthetic.main.login_fragment.*
+import com.example.quickapp.databinding.LoginFragmentBinding
 
 class LoginFragment: Fragment() {
 
+    private lateinit var binding: LoginFragmentBinding
     private lateinit var userViewModel: UserViewModel
     private var currentDialog : MessageDialogFragment? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.login_fragment, container,false)
+    ): View {
+        binding = LoginFragmentBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,8 +67,8 @@ class LoginFragment: Fragment() {
             }
             if (loginResult.success != null) {
                 val welcome = getString(R.string.welcome)
-                val email = loginResult.success.displayName
-                showLoginResult("$welcome $email")
+                val resultEmail = loginResult.success.displayName
+                showLoginResult("$welcome $resultEmail")
             }
         })
 
@@ -105,12 +105,13 @@ class LoginFragment: Fragment() {
                 false
             }
 
-            login.setOnClickListener {
+            binding.login.setOnClickListener {
                 loading.visibility = View.VISIBLE
                 userViewModel.login(email.text.toString(), password.text.toString())
             }
 
-            help.setOnClickListener {
+
+            binding.help.setOnClickListener {
                 currentDialog = MessageDialogFragment(getString(R.string.invalid_password),getString(R.string.close))
                     currentDialog?.show(parentFragmentManager, MessageDialogFragment.TAG)
             }

@@ -1,4 +1,4 @@
-package com.catly.quickapp.ui.RepositoryList
+package com.catly.quickapp.ui.repository_list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

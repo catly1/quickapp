@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.catly.quickapp.data.LoginRepository
 import com.catly.quickapp.data.RepositoryListRepository
-import com.catly.quickapp.ui.RepositoryList.RepositoryListViewModel
+import com.catly.quickapp.ui.repository_list.RepositoryListViewModel
 import com.catly.quickapp.ui.login.UserViewModel
 
 /**

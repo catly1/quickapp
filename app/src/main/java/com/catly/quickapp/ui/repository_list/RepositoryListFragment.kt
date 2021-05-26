@@ -1,48 +1,38 @@
-package com.catly.quickapp.ui.RepositoryList
+package com.catly.quickapp.ui.repository_list
 
-import android.net.Uri
 import android.os.Bundle
-import android.security.keystore.KeyGenParameterSpec
-import android.security.keystore.KeyProperties
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
 import com.example.quickapp.R
 import com.catly.quickapp.adapter.RepositoryListAdapter
 import com.catly.quickapp.ui.ViewModelFactory
-import com.catly.quickapp.ui.login.LoginFragment
-import com.catly.quickapp.ui.login.LoginFragmentDirections
 import com.catly.quickapp.ui.login.UserViewModel
-import kotlinx.android.synthetic.main.repository_fragment.*
-
+import com.example.quickapp.databinding.RepositoryFragmentBinding
 
 class RepositoryListFragment : Fragment() {
     private lateinit var repoViewModel: RepositoryListViewModel
     private lateinit var userViewModel: UserViewModel
-
+    private lateinit var binding: RepositoryFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         repoViewModel =
             ViewModelProvider(this, ViewModelFactory(requireActivity().application)).get(
                 RepositoryListViewModel::class.java
             )
-
-        val view = inflater.inflate(R.layout.repository_fragment, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewRepoList)
+        binding = RepositoryFragmentBinding.inflate(layoutInflater)
+        val view = binding.root
         val adapter = RepositoryListAdapter(findNavController())
-        recyclerView.adapter = adapter
-        repoViewModel.repoList.observe(viewLifecycleOwner, Observer {
+        binding.recyclerViewRepoList.adapter = adapter
+        repoViewModel.repoList.observe(viewLifecycleOwner,  {
             adapter.update(it)
         })
         return view
@@ -50,8 +40,7 @@ class RepositoryListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        logout.setOnClickListener {
+        RepositoryFragmentBinding.bind(view).logout.setOnClickListener {
             userViewModel.logout()
             findNavController().navigate(R.id.action_repositoryListFragment_to_loginFragment)
         }
