@@ -71,6 +71,6 @@ class UserViewModel(private val loginRepository: LoginRepository) : ViewModel() 
                 hasNumber = true
             }
         }
-        return (password.length > 9) && hasLowerCase && hasUpperCase && hasNumber
+        return (password.length >= 9) && hasLowerCase && hasUpperCase && hasNumber
     }
 }

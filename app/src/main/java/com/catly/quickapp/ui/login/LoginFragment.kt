@@ -45,6 +45,14 @@ class LoginFragment: Fragment() {
         userViewModel = ViewModelProvider(this, ViewModelFactory(requireActivity().application))
             .get(UserViewModel::class.java)
 
+        userViewModel.user.observe(viewLifecycleOwner, {user ->
+            if (user !==null){
+                email.setText(user.email)
+                password.setText(user.password)
+//                findNavController().navigate(R.id.action_loginFragment_to_repositoryListFragment)
+            }
+        })
+
         userViewModel.loginFormState.observe(viewLifecycleOwner, Observer {
             val loginState = it ?: return@Observer
 
@@ -69,16 +77,10 @@ class LoginFragment: Fragment() {
             if (loginResult.success != null) {
                 val welcome = getString(R.string.welcome)
                 val resultEmail = loginResult.success.displayName
-                showLoginResult("$welcome $resultEmail")
+                showLoginResult("$welcome $resultEmail!")
             }
         })
 
-        userViewModel.user.observe(viewLifecycleOwner, {user ->
-            if (user !==null){
-                println(user.email)
-                requireView().findNavController().navigate(R.id.action_loginFragment_to_repositoryListFragment)
-            }
-        })
 
         email.afterTextChanged {
             userViewModel.loginDataChanged(
@@ -106,9 +108,11 @@ class LoginFragment: Fragment() {
                 false
             }
 
+
             binding.login.setOnClickListener {
                 loading.visibility = View.VISIBLE
                 userViewModel.login(email.text.toString(), password.text.toString())
+                findNavController().navigate(R.id.action_loginFragment_to_repositoryListFragment)
             }
 
 
@@ -118,6 +122,7 @@ class LoginFragment: Fragment() {
             }
         }
     }
+
 
     private fun showLoginResult(result: String) {
         Toast.makeText(context, result, Toast.LENGTH_SHORT).show()

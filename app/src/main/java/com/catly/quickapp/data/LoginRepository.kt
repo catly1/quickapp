@@ -62,7 +62,7 @@ class LoginRepository(application: Application) {
                 .putString("email", email)
                 .putString("password", password)
                 .apply()
-            val user = LoggedInUser(email)
+            val user = LoggedInUser(email,password)
             setLoggedInUser(user)
             Result.Success(user)
         } catch (e: Exception) {
@@ -79,7 +79,7 @@ class LoginRepository(application: Application) {
         val password = sharedPreferences.getString("password", null)
 
         if (email != null && password != null) {
-            setLoggedInUser(LoggedInUser(email))
+            setLoggedInUser(LoggedInUser(email,password))
         }
     }
 }
