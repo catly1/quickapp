@@ -19,13 +19,21 @@ class UserViewModel(private val loginRepository: LoginRepository) : ViewModel() 
     val loginResult: LiveData<LoginResult> = _loginResult
 
     private val _user = MutableLiveData<LoggedInUser>()
-    val user : LiveData<LoggedInUser> = _user
+    val user: LiveData<LoggedInUser> = _user
 
     init {
         _user.value = loginRepository.user
     }
 
     fun login(email: String, password: String) {
+        if (!isEmailValid(email) && !isPasswordValid(password)) {
+            _loginResult.value = LoginResult(error = R.string.login_failed)
+            return
+        } else if (!isPasswordValid(password) && isEmailValid(email)) {
+            _loginResult.value = LoginResult(error = R.string.login_failed)
+            return
+        }
+
         val result = loginRepository.login(email, password)
 
         if (result is Result.Success) {
@@ -51,7 +59,7 @@ class UserViewModel(private val loginRepository: LoginRepository) : ViewModel() 
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    fun logout(){
+    fun logout() {
         loginRepository.logout()
     }
 
@@ -60,14 +68,14 @@ class UserViewModel(private val loginRepository: LoginRepository) : ViewModel() 
         var hasLowerCase = false
         var hasNumber = false
 
-        for (char in password){
-            if (Character.isUpperCase(char)){
+        for (char in password) {
+            if (Character.isUpperCase(char)) {
                 hasUpperCase = true
             }
-            if (Character.isLowerCase(char)){
+            if (Character.isLowerCase(char)) {
                 hasLowerCase = true
             }
-            if (char.isDigit()){
+            if (char.isDigit()) {
                 hasNumber = true
             }
         }

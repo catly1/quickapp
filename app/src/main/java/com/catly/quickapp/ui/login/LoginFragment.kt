@@ -78,6 +78,7 @@ class LoginFragment: Fragment() {
                 val welcome = getString(R.string.welcome)
                 val resultEmail = loginResult.success.displayName
                 showLoginResult("$welcome $resultEmail!")
+                findNavController().navigate(R.id.action_loginFragment_to_repositoryListFragment)
             }
         })
 
@@ -112,7 +113,6 @@ class LoginFragment: Fragment() {
             binding.login.setOnClickListener {
                 loading.visibility = View.VISIBLE
                 userViewModel.login(email.text.toString(), password.text.toString())
-                findNavController().navigate(R.id.action_loginFragment_to_repositoryListFragment)
             }
 
 
